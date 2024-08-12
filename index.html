@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaos Game - Simple Step by Step</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            overflow: hidden;
+        }
+        #canvas {
+            position: relative;
+            width: 800px;
+            height: 800px;
+            margin: 0 auto;
+            background-color: black;
+        }
+        .point {
+            position: absolute;
+            color: white;
+            font-size: 16px;
+        }
+        #info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="canvas"></div>
+<div id="info">Iteration: 0</div>
+
+<script>
+    // Ukuran kanvas
+    const width = 800;
+    const height = 800;
+
+    // Sudut-sudut segitiga
+    const vertices = [
+        {x: 400, y: 50},   // Sudut atas
+        {x: 50, y: 750},   // Sudut kiri bawah
+        {x: 750, y: 750}   // Sudut kanan bawah
+    ];
+
+    // Titik awal acak
+    let point = {
+        x: Math.random() * width,
+        y: Math.random() * height
+    };
+
+    // Iterasi
+    let iterationCount = 0;
+
+    const canvas = document.getElementById('canvas');
+    const info = document.getElementById('info');
+
+    function drawPoint() {
+        // Pilih sudut secara acak
+        const vertex = vertices[Math.floor(Math.random() * vertices.length)];
+
+        // Hitung titik tengah antara titik saat ini dan sudut yang dipilih
+        point.x = (point.x + vertex.x) / 2;
+        point.y = (point.y + vertex.y) / 2;
+
+        // Buat elemen "titik" dan tambahkan ke kanvas
+        const dot = document.createElement('div');
+        dot.textContent = '•';
+        dot.className = 'point';
+        dot.style.left = `${point.x}px`;
+        dot.style.top = `${point.y}px`;
+
+        canvas.appendChild(dot);
+
+        // Update informasi iterasi
+        iterationCount++;
+        info.textContent = `Iteration: ${iterationCount}`;
+    }
+
+    function startChaosGame() {
+        setInterval(drawPoint, 0); // Tambahkan titik setiap 100ms
+    }
+
+    startChaosGame();
+</script>
+
+</body>
+</html>
